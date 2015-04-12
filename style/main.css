@@ -1,0 +1,11 @@
+.overlay {
+  position: absolute;
+  z-index: 100;
+  border: 1px solid #666;
+  margin: 0;
+  background-color: #999;
+  color: #111;
+  -moz-box-shadow: 2px 2px 2px #999;
+  -webkit-box-shadow: 2px 2px 2px #999;
+  box-shadow: 2px 2px 2px #999;
+}

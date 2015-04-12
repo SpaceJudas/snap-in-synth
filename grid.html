@@ -1,0 +1,32 @@
+<head>
+
+</head>
+<body>
+  <script>
+  window.onload = function() {
+    var canvas = document.getElementById("main-canvas");
+    var context = canvas.getContext("2d");
+
+    var cell_width = 50;
+    var cell_height = 50;
+    var canvas_width = 5000;
+    var canvas_height = 5000;
+
+    for (var x = 0; x < canvas_width; x += cell_width)
+    {
+      context.moveTo(x, 0);
+      context.lineTo(x, canvas_height);
+    }
+    for (var y = 0; y < canvas_height; y += cell_height)
+    {
+      context.moveTo(0, y);
+      context.lineTo(canvas_width, y);
+    }
+
+    context.strokeStyle = "#ddd";
+    context.stroke();
+  }
+  </script>
+  <canvas id="main-canvas" width="1000" height="1000">
+  </canvas>
+</body>
