@@ -25,56 +25,55 @@
 
   <script type="text/jsx">
     var Page = React.createClass({
-
       getInitialState: function() {
-          return {
-            modules: [{
-                name: 'osc',
-                type: 'sin',
-                properties: {wave:'sin', freq:500},
-            }],
-            sequence: null,
-          };
-        },
-
-        addNewOsc: function() {
-          var modules = this.state.modules
-          modules.push({
+        return {
+          modules: [{
             name: 'osc',
             type: 'sin',
             properties: {wave:'sin', freq:500},
-          });
-          this.setState({modules: modules});
-        },
+          }],
+          sequence: null,
+        };
+      },
 
-        oscChanged: function(i, values) {
-          var modules = this.state.modules;
-          modules[i] = values;
-          this.setState({modules: modules});
-        },
+      addNewOsc: function() {
+        var modules = this.state.modules
+        modules.push({
+          name: 'osc',
+          type: 'sin',
+          properties: {wave:'sin', freq:500},
+        });
+        this.setState({modules: modules});
+      },
+
+      oscChanged: function(i, values) {
+        var modules = this.state.modules;
+        modules[i] = values;
+        this.setState({modules: modules});
+      },
 
       togglePlay: function() {
         if (this.state.sequence == null) {this.play();}
         else {this.pause();}
       },
 
-        play: function() {
-          if (this.state.sequence != null) {
-            //pause first so we're not playing multiple sequences
-            this.state.sequence.pause();
+      play: function() {
+        if (this.state.sequence != null) {
+          //pause first so we're not playing multiple sequences
+          this.state.sequence.pause();
+        }
+        var sequence = null;
+        this.state.modules.forEach(function (m) {
+          if (sequence == null) {
+            sequence = T(m.name, m.properties);
+          } else {
+            sequence = sequence.append(T(m.name, m.properties));
           }
-          var sequence = null;
-          this.state.modules.forEach(function (m) {
-            if (sequence == null) {
-              sequence = T(m.name, m.properties);
-            } else {
-              sequence = sequence.append(T(m.name, m.properties));
-            }
-          });
-          this.setState({sequence: sequence});
-          sequence.play();
-          console.log('playing');
-        },
+        });
+        this.setState({sequence: sequence});
+        sequence.play();
+        console.log('playing');
+      },
 
       pause: function() {
         if (this.state.sequence != null) {
