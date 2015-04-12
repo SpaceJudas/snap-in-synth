@@ -53,8 +53,14 @@
           this.setState({modules: modules});
         },
 
+      togglePlay: function() {
+        if (this.state.sequence == null) {this.play();}
+        else {this.pause();}
+      },
+
         play: function() {
           if (this.state.sequence != null) {
+            //pause first so we're not playing multiple sequences
             this.state.sequence.pause();
           }
           var sequence = null;
@@ -70,6 +76,13 @@
           console.log('playing');
         },
 
+      pause: function() {
+        if (this.state.sequence != null) {
+          this.state.sequence.pause();
+          this.state.sequence = null
+        }
+      },
+
       render: function() {
         return (
           <div>
@@ -77,7 +90,7 @@
               return <Module key={i} o={s} id={i} changed={this.oscChanged} />;
             }.bind(this))}
             <PlusButton addNewOsc={this.addNewOsc} />
-            <PlayButton playFn={this.play} />
+            <PlayButton playFn={this.togglePlay} />
           </div>
         );
       }
