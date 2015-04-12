@@ -55,11 +55,10 @@
 
         play: function() {
           if (this.state.sequence != null) {
-            this.state.sequence.stop();
+            this.state.sequence.pause();
           }
           var sequence = null;
           this.state.modules.forEach(function (m) {
-            debugger;
             if (sequence == null) {
               sequence = T(m.name, m.properties);
             } else {
@@ -87,8 +86,8 @@
     var Module = React.createClass({
       changed: function() {
         var freq = $(this.getDOMNode()).find('input').val();
-        var module = this.props.o;
-        module.properties.freq = freq;
+        var module = JSON.parse(JSON.stringify(this.props.o));
+        module.properties.freq = parseInt(freq);
         this.props.changed(this.props.id, module);
       },
       render: function() {
