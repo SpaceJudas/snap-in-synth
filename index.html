@@ -98,14 +98,26 @@
 
     var Module = React.createClass({
       changed: function() {
+        var wave = $(this.getDOMNode()).find('select').val();
         var freq = $(this.getDOMNode()).find('input').val();
         var module = JSON.parse(JSON.stringify(this.props.o));
+        module.properties.wave = wave;
         module.properties.freq = parseInt(freq);
         this.props.changed(this.props.id, module);
       },
       render: function() {
         return (
           <div className='module'>
+            <select onChange={this.changed} value={this.props.o.properties.wave}>
+              <option value='sin'>Sin</option>
+              <option value='cos'>Cosine</option>
+              <option value='pulse'>Pulse</option>
+              //<option value='square'>Square</option> Not fully supported yet
+              <option value='saw'>Saw</option>
+              <option value='tri'>Triangle</option>
+              <option value='fami'>Famicom</option>
+              <option value='konami'>Konami</option>
+            </select>
             {this.props.o.type}
             <input type='range' min='0' max='2600' step='1' onChange={this.changed} />
           </div>
