@@ -29,7 +29,6 @@
         return {
           modules: [{
             name: 'osc',
-            type: 'sin',
             properties: {wave:'sin', freq:500},
           }],
           sequence: null,
@@ -40,7 +39,6 @@
         var modules = this.state.modules
         modules.push({
           name: 'osc',
-          type: 'sin',
           properties: {wave:'sin', freq:500},
         });
         this.setState({modules: modules});
@@ -117,7 +115,6 @@
               <option value='fami'>Famicom</option>
               <option value='konami'>Konami</option>
             </select>
-            {this.props.o.type}
             <input type='range' min='0' max='2600' step='1' onChange={this.changed} />
           </div>
         );
