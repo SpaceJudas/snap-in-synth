@@ -13,25 +13,19 @@ var Page = React.createClass({
 		return (this.state.sequence != null);
 	},
 
-	addNewOsc: function(e) {
-		e.preventDefault();
+	addNewModule: function(m) {
 		var modules = this.state.modules
-		var m = {
-			name: 'osc',
-			properties: {wave:'sin', freq:500, phase:0, fb:0},
-		}
-		m.myT = T(m.name, m.properties);
-
-		modules.push(m);
-		var sequence = this.state.sequence;
+		m.myT = T(m.name, m.properties)
+		modules.push(m)
+		var sequence = this.state.sequence
 		if (this.isPlaying()) {
-			sequence.append(m.myT);
+			sequence.append(m.myT)
 		}
 
 		this.setState({
 			modules: modules,
-			sequence: sequence
-		});
+			sequence: sequence,
+		})
 	},
 
 	oscChanged: function(i, values) {
@@ -82,7 +76,7 @@ var Page = React.createClass({
 					<h1>Snap-In Synth</h1>
 				</div>
 				<div className="button-row">
-					<PlusButton addNewOsc={this.addNewOsc} />
+					<ModuleSelector addNewModule={this.addNewModule} />
 					<PlayButton playFn={this.togglePlay} />
 				</div>
 				<div className="module-row">
@@ -127,11 +121,32 @@ var Module = React.createClass({
 	}
 });
 
-var PlusButton = React.createClass({
+var ModuleSelector = React.createClass({
+	availableModules: [
+		{
+			name: 'osc',
+			properties: {wave:'sin', freq:500}
+		},
+		{
+			name: 'noise',
+			properties: {mul:1, add:0}
+		}
+	],
+
+	add: function() {
+		var i = $(this.getDOMNode()).find('select').val()
+		this.props.addNewModule(this.availableModules[i])
+	},
+
 	render: function() {
 		return (
-			<div id='AddButton' className="button" onClick={this.props.addNewOsc}>
-				Add a new oscillator
+			<div>
+				<select>
+					{this.availableModules.map(function(s, i) {
+						return <option value={i}>{s.name}</option>
+					})}
+				</select>
+				<div className="button" onClick={this.add}>Add</div>
 			</div>
 		)
 	}
