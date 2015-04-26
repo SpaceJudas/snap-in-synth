@@ -81,14 +81,14 @@ var Page = React.createClass({
 				<div className="header-row">
 					<h1>Snap-In Synth</h1>
 				</div>
+				<div className="button-row">
+					<PlusButton addNewOsc={this.addNewOsc} />
+					<PlayButton playFn={this.togglePlay} />
+				</div>
 				<div className="module-row">
 					{this.state.modules.map(function(s, i) {
 						return <Module key={i} o={s} id={i} changed={this.oscChanged} />;
 					}.bind(this))}
-				</div>
-				<div className="button-row">
-					<PlusButton addNewOsc={this.addNewOsc} />
-					<PlayButton playFn={this.togglePlay} />
 				</div>
 			</div>
 		);
