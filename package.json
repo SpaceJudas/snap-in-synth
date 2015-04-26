@@ -1,0 +1,19 @@
+{
+  "name": "snap-in-synth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://SpaceJudas@github.com/SpaceJudas/snap-in-synth.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SpaceJudas/snap-in-synth/issues"
+  },
+  "homepage": "https://github.com/SpaceJudas/snap-in-synth#readme"
+}
