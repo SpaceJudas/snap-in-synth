@@ -150,6 +150,7 @@ var Module = React.createClass({
 
 		return (
 			<div className='module'>
+				<h2>{this.props.mod.name}</h2>
 				{controls}
 			</div>
 		);
