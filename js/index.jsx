@@ -135,7 +135,6 @@ var Module = React.createClass({
 		for (prop in moduleDefinitions[this.props.mod.name]) {
 			var def = moduleDefinitions[this.props.mod.name][prop];
 			if (def['type'] == 'list') {
-				debugger;
 				controls.push(
 					<select onChange={this.changed} value={this.props.mod.properties[prop]}>
 						{def.values.map(function(s, i) {
