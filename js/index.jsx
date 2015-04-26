@@ -23,11 +23,15 @@ var Page = React.createClass({
 		m.myT = T(m.name, m.properties);
 
 		modules.push(m);
+		var sequence = this.state.sequence;
 		if (this.isPlaying()) {
-			this.state.sequence.append(m.myT);
+			sequence.append(m.myT);
 		}
 
-		this.setState({modules: modules});
+		this.setState({
+			modules: modules,
+			sequence: sequence
+		});
 	},
 
 	oscChanged: function(i, values) {
