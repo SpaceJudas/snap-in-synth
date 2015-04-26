@@ -10,6 +10,10 @@
   box-shadow: 2px 2px 2px #999;
 }
 
+.header-row {
+  text-align: center;
+}
+
 .module {
   display: inline-block;
   padding: 3rem;
