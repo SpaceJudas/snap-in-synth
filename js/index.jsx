@@ -1,3 +1,30 @@
+var moduleDefinitions = {
+	osc: {
+		wave: {
+			type: 'list',
+			values: ['sin','cos','pulse','saw','tri','fami','konami'],
+			initial: 'sin',
+		},
+		freq: {
+			type: 'integer',
+			min: 0,
+			max: 2600,
+			step: 1,
+			initial: 500,
+		}
+	},
+	noise: {
+		mul: {
+			type: 'integer',
+			initial: 1,
+		},
+		add: {
+			type: 'integer',
+			initial: 0,
+		},
+	},
+};
+
 var Page = React.createClass({
 	getInitialState: function() {
 		return {
@@ -81,7 +108,7 @@ var Page = React.createClass({
 				</div>
 				<div className="module-row">
 					{this.state.modules.map(function(s, i) {
-						return <Module key={i} o={s} id={i} changed={this.oscChanged} />;
+						return <Module key={i} mod={s} id={i} changed={this.oscChanged} />;
 					}.bind(this))}
 				</div>
 			</div>
@@ -93,35 +120,45 @@ var Module = React.createClass({
 	changed: function() {
 		var wave = $(this.getDOMNode()).find('select').val();
 		var freq = $(this.getDOMNode()).find('input').val();
-		//var mod = JSON.parse(JSON.stringify(this.props.o));
 
-		this.props.o.properties.wave = wave;
-		this.props.o.properties.freq = parseInt(freq);
-		if (this.props.o.myT != null) {
-			this.props.o.myT.set(this.props.o.properties)
+		this.props.mod.properties.wave = wave;
+		this.props.mod.properties.freq = parseInt(freq);
+		if (this.props.mod.myT != null) {
+			this.props.mod.myT.set(this.props.mod.properties)
 		}
 
-		this.props.changed(this.props.id, this.props.o);
+		this.props.changed(this.props.id, this.props.mod);
 	},
 	render: function() {
-		var cOptions = ['sin','cos','pulse','saw','tri','fami','konami'];
-		var rOptions = [];
-		cOptions.forEach(function(o) {
-			rOptions.push(<option value={o}>{o}</option>)
-		})
+
+		var controls = [];
+		for (prop in moduleDefinitions[this.props.mod.name]) {
+			var def = moduleDefinitions[this.props.mod.name][prop];
+			if (def['type'] == 'list') {
+				debugger;
+				controls.push(
+					<select onChange={this.changed} value={this.props.mod.properties[prop]}>
+						{def.values.map(function(s, i) {
+							return <option value={s}>{s}</option>
+						})}
+					</select>
+				);
+			} else if (def['type'] == 'integer') {
+				controls.push(<input type='range' min={def.min} max={def.max} step={def.step} onChange={this.changed} />)
+			}
+		}
 
 		return (
 			<div className='module'>
-				<select onChange={this.changed} value={this.props.o.properties.wave}>
-					{rOptions}
-				</select>
-				<input type='range' min='0' max='2600' step='1' onChange={this.changed} />
+				{controls}
 			</div>
 		);
 	}
 });
 
 var ModuleSelector = React.createClass({
+	// TODO: just make this a list like ['osc', 'noise'] and use the
+	// moduleDefintions schema to define the default values
 	availableModules: [
 		{
 			name: 'osc',
