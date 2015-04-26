@@ -13,7 +13,8 @@ var Page = React.createClass({
 		return (this.state.sequence != null);
 	},
 
-	addNewOsc: function() {
+	addNewOsc: function(e) {
+		e.preventDefault();
 		var modules = this.state.modules
 		var m = {
 			name: 'osc',
@@ -22,11 +23,15 @@ var Page = React.createClass({
 		m.myT = T(m.name, m.properties);
 
 		modules.push(m);
+		var sequence = this.state.sequence;
 		if (this.isPlaying()) {
-			this.state.sequence.append(m.myT);
+			sequence.append(m.myT);
 		}
 
-		this.setState({modules: modules});
+		this.setState({
+			modules: modules,
+			sequence: sequence
+		});
 	},
 
 	oscChanged: function(i, values) {
@@ -76,6 +81,8 @@ var Page = React.createClass({
 				{this.state.modules.map(function(s, i) {
 					return <Module key={i} o={s} id={i} changed={this.oscChanged} />;
 				}.bind(this))}
+			</div>,
+			<div className="button-row">
 				<PlusButton addNewOsc={this.addNewOsc} />
 				<PlayButton playFn={this.togglePlay} />
 			</div>
@@ -118,7 +125,7 @@ var Module = React.createClass({
 var PlusButton = React.createClass({
 	render: function() {
 		return (
-			<div id='AddButton' onClick={this.props.addNewOsc}>
+			<div id='AddButton' className="button" onClick={this.props.addNewOsc}>
 				Add a new oscillator
 			</div>
 		)
@@ -128,7 +135,7 @@ var PlusButton = React.createClass({
 var PlayButton = React.createClass({
 	render: function() {
 		return (
-			<div onClick={this.props.playFn} >
+			<div className="button" onClick={this.props.playFn} >
 				Play
 			</div>
 		)
