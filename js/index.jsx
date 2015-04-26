@@ -130,6 +130,14 @@ var ModuleSelector = React.createClass({
 		{
 			name: 'noise',
 			properties: {mul:1, add:0}
+		},
+		{
+			name: 'lowpass',
+			properties: {cutoff: 300, res: 1}
+		},
+		{
+			name: 'highpass',
+			properties: {cutoff: 900, res: 1}
 		}
 	],
 
