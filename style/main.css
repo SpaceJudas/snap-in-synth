@@ -43,3 +43,8 @@
 .button:hover {
   background: #555;
 }
+
+.module-row select {
+  width: 100%;
+  margin-bottom: 2rem;
+}
