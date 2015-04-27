@@ -118,32 +118,42 @@ var Page = React.createClass({
 
 var Module = React.createClass({
 	changed: function() {
-		var wave = $(this.getDOMNode()).find('select').val();
-		var freq = $(this.getDOMNode()).find('input').val();
+		// for each prop
+		for (tPropName in this.props.mod.properties) {
+			var tPropValue = $(this.getDOMNode()).find('.' + tPropName).val()
+			//TODO: add variable parsing
+			switch(moduleDefinitions[this.props.mod.name][tPropName].type) {
+				case 'integer':
+					console.dir(tPropValue);
+					tPropValue = parseInt(tPropValue);
+				default:
+					tPropValue = tPropValue
+					break;
+			}
 
-		this.props.mod.properties.wave = wave;
-		this.props.mod.properties.freq = parseInt(freq);
+			this.props.mod.properties[tPropName] = tPropValue;
+		}
+
 		if (this.props.mod.myT != null) {
-			this.props.mod.myT.set(this.props.mod.properties)
+			this.props.mod.myT.set(this.props.mod.properties);
 		}
 
 		this.props.changed(this.props.id, this.props.mod);
 	},
 	render: function() {
-
 		var controls = [];
 		for (prop in moduleDefinitions[this.props.mod.name]) {
 			var def = moduleDefinitions[this.props.mod.name][prop];
 			if (def['type'] == 'list') {
 				controls.push(
-					<select onChange={this.changed} value={this.props.mod.properties[prop]}>
+					<select className={prop} onChange={this.changed} value={this.props.mod.properties[prop]}>
 						{def.values.map(function(s, i) {
 							return <option value={s}>{s}</option>
 						})}
 					</select>
 				);
 			} else if (def['type'] == 'integer') {
-				controls.push(<input type='range' min={def.min} max={def.max} step={def.step} onChange={this.changed} />)
+				controls.push(<input className={prop} type='range' min={def.min} max={def.max} step={def.step} onChange={this.changed} />)
 			}
 		}
 
